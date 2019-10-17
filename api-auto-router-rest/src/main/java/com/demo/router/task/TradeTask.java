@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -21,7 +20,6 @@ public class TradeTask {
         serviceAdapter.getAllRouters().stream()
             .map(abstractRouterFactory -> abstractRouterFactory.getProductService().getProducts())
             .flatMap(Collection::stream)
-            .collect(Collectors.toList())
             .forEach(System.out::println);
 
         RouterType routerType = getRouterType();
