@@ -3,10 +3,12 @@ package com.demo.router.sh.factory;
 import com.demo.router.base.annotation.Router;
 import com.demo.router.base.enums.RouterType;
 import com.demo.router.base.facade.AssetService;
+import com.demo.router.base.facade.ProductService;
 import com.demo.router.base.facade.TradeService;
 import com.demo.router.base.factory.AbstractRouterFactory;
-import com.demo.router.sh.facade.AssetServiceImpl;
-import com.demo.router.sh.facade.TradeServiceImpl;
+import com.demo.router.sh.facade.ShAssetServiceImpl;
+import com.demo.router.sh.facade.ShProductServiceImpl;
+import com.demo.router.sh.facade.ShTradeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,13 +16,20 @@ import org.springframework.stereotype.Service;
 @Service
 public class ShRouterFactory implements AbstractRouterFactory {
     @Autowired
-    private AssetServiceImpl assetService;
+    private ShAssetServiceImpl assetService;
     @Autowired
-    private TradeServiceImpl tradeService;
+    private ShProductServiceImpl productService;
+    @Autowired
+    private ShTradeServiceImpl tradeService;
 
     @Override
     public AssetService getAssetService() {
         return assetService;
+    }
+
+    @Override
+    public ProductService getProductService() {
+        return productService;
     }
 
     @Override

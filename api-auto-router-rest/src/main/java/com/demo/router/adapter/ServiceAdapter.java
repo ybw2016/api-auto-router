@@ -8,9 +8,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @Slf4j
 @Component
@@ -18,6 +16,10 @@ public class ServiceAdapter implements InitializingBean {
     @Autowired
     private Map<String, AbstractRouterFactory> rawRouterMap;
     private Map<RouterType, AbstractRouterFactory> routerMap = new HashMap<>();
+
+    public List<AbstractRouterFactory> getAllRouters() {
+        return new ArrayList<>(routerMap.values());
+    }
 
     public AbstractRouterFactory getRouter(RouterType routerType) {
         return (AbstractRouterFactory) checkHandler(routerMap.get(routerType));
