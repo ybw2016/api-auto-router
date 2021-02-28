@@ -1,6 +1,7 @@
 package com.demo.router.sh.factory;
 
 import com.demo.router.base.annotation.Router;
+import com.demo.router.base.annotation.RouterNew;
 import com.demo.router.base.enums.RouterType;
 import com.demo.router.base.facade.AssetService;
 import com.demo.router.base.facade.ProductService;
@@ -12,6 +13,7 @@ import com.demo.router.sh.facade.ShTradeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+@RouterNew(bizEnum = RouterType.class, bizEnumName = "SH")
 @Router(RouterType.SH)
 @Service
 public class ShRouterFactory implements AbstractRouterFactory {

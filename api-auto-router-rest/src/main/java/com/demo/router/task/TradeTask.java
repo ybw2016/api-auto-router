@@ -1,32 +1,65 @@
 package com.demo.router.task;
 
-import com.demo.router.adapter.ServiceAdapter;
+import com.demo.router.adapter.ServiceAdapterNew;
+import com.demo.router.base.enums.ProductType;
 import com.demo.router.base.enums.RouterType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.Random;
 
 @RequiredArgsConstructor
 @Service
 public class TradeTask {
-    private final ServiceAdapter serviceAdapter;
+    //private final ServiceAdapter serviceAdapter;
+    private final ServiceAdapterNew serviceAdapterNew;
+
+    //@Scheduled(cron = "0/2 * * * * ?")
+    public void testService() {
+        System.out.println("service heartbeat...");
+    }
 
     @Scheduled(cron = "0/2 * * * * ?")
+    public void financial() {
+        System.out.println("finance type from all exchange:");
+        //serviceAdapter.getAllRouters().stream()
+        //    .map(abstractRouterFactory -> abstractRouterFactory.getProductService().getProducts())
+        //    .flatMap(Collection::stream)
+        //    .forEach(System.out::println);
+
+        ProductType productType = getProductType();
+        System.out.println("productType: " + productType);
+        serviceAdapterNew.getProductService(productType).print(productType);
+
+        System.out.println();
+    }
+
+    @Scheduled(cron = "0/4 * * * * ?")
     public void purchase() {
         System.out.println("products from all over the world:");
-        serviceAdapter.getAllRouters().stream()
-            .map(abstractRouterFactory -> abstractRouterFactory.getProductService().getProducts())
-            .flatMap(Collection::stream)
-            .forEach(System.out::println);
+        //serviceAdapter.getAllRouters().stream()
+        //    .map(abstractRouterFactory -> abstractRouterFactory.getProductService().getProducts())
+        //    .flatMap(Collection::stream)
+        //    .forEach(System.out::println);
 
         RouterType routerType = getRouterType();
         System.out.println("trade place: " + routerType);
-        serviceAdapter.getRouter(routerType).getTradeService().executeTrade();
+        serviceAdapterNew.getRouterFactory(routerType).getTradeService().executeTrade();
 
         System.out.println();
+    }
+
+
+    private ProductType getProductType() {
+        int number = new Random().nextInt(1000) % 3;
+        if (number == 1) {
+            return ProductType.STOCK;
+        }
+        if (number == 2) {
+            return ProductType.BOND;
+        }
+        return ProductType.FUND;
     }
 
     private RouterType getRouterType() {
