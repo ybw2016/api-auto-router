@@ -1,4 +1,4 @@
-package com.demo.router.service;
+package com.demo.router.service.security;
 
 import com.demo.router.base.annotation.RouterNew;
 import com.demo.router.base.enums.ProductType;

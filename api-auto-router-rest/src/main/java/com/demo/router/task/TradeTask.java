@@ -21,13 +21,18 @@ public class TradeTask {
     }
 
     @Scheduled(cron = "0/2 * * * * ?")
-    public void financial() {
-        System.out.println("finance type from all exchange:");
-        //serviceAdapter.getAllRouters().stream()
-        //    .map(abstractRouterFactory -> abstractRouterFactory.getProductService().getProducts())
-        //    .flatMap(Collection::stream)
-        //    .forEach(System.out::println);
+    public void assetCalculate() {
+        System.out.println("asset calculate type from all exchange:");
+        ProductType productType = getProductType();
+        System.out.println("asset calculate type productType: " + productType);
+        serviceAdapterNew.getAbstractAssetService(productType).print(productType);
 
+        System.out.println();
+    }
+
+    @Scheduled(cron = "0/3 * * * * ?")
+    public void securityProducts() {
+        System.out.println("finance type from all exchange:");
         ProductType productType = getProductType();
         System.out.println("productType: " + productType);
         serviceAdapterNew.getProductService(productType).print(productType);

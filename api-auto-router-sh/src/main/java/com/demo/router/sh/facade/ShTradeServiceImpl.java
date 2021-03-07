@@ -11,6 +11,6 @@ public class ShTradeServiceImpl implements TradeService {
 
     @Override
     public void executeTrade() {
-        System.out.println("executeTrade from SH -> totalAmount: " + assetService.queryAsset());
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> executeTrade from SH -> totalAmount: " + assetService.queryAsset());
     }
 }

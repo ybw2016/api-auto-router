@@ -1,4 +1,4 @@
-package com.demo.router.service;
+package com.demo.router.service.security;
 
 import com.demo.router.base.enums.ProductType;
 
@@ -8,7 +8,7 @@ import com.demo.router.base.enums.ProductType;
  */
 public abstract class AbstractProductService {
     public void print(ProductType productType) {
-        System.out.println(getProductServicePrefix() + " - " + productType);
+        System.out.println("Security **************** " + getProductServicePrefix() + " - " + productType);
     }
 
     protected abstract String getProductServicePrefix();

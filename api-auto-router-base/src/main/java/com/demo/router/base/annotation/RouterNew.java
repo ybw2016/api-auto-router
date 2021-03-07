@@ -8,6 +8,8 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE})
 public @interface RouterNew {
+    String bizGroup() default "";
+
     Class<? extends Enum> bizEnum();
 
     String bizEnumName();

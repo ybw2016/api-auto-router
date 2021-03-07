@@ -11,6 +11,6 @@ public class BjTradeServiceImpl implements TradeService {
 
     @Override
     public void executeTrade() {
-        System.out.println("executeTrade from BJ -> totalAmount: " + assetService.queryAsset());
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> executeTrade from BJ -> totalAmount: " + assetService.queryAsset());
     }
 }
