@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- * 存管异步通知后回调处理类
+ * 获取策略子类
  *
  * @author bowen.yan
  * @date 2018-03-20

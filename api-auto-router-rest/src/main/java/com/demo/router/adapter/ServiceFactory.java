@@ -15,7 +15,7 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 /**
- * 存管异步通知后回调处理类
+ * 服务工厂
  *
  * @author bowen.yan
  * @date 2018-03-20
