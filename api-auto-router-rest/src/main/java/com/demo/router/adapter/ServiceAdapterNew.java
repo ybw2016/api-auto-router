@@ -17,21 +17,26 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ServiceAdapterNew {
-    @Autowired
-    private ServiceFactory serviceFactory;
+    //@Autowired
+    //private ServiceFactory serviceFactory;
+    private static ServiceFactoryNew SERVICE_FACTORY;
+
+    public ServiceAdapterNew(@Autowired ServiceFactoryNew serviceFactory) {
+        ServiceAdapterNew.SERVICE_FACTORY = serviceFactory;
+    }
 
     // 获取证券资产计算服务
-    public AbstractAssetService getAbstractAssetService(ProductType productType) {
-        return (AbstractAssetService) serviceFactory.getService(ServiceGroupConstant.ASSET_ROUTER, productType.getClass(), productType.name());
+    public static AbstractAssetService getAbstractAssetService(ProductType productType) {
+        return (AbstractAssetService) SERVICE_FACTORY.getService(ServiceGroupConstant.ASSET_ROUTER, productType.getClass(), productType.name());
     }
 
     // 获取证券产品服务
-    public AbstractProductService getProductService(ProductType productType) {
-        return (AbstractProductService) serviceFactory.getService(productType.getClass(), productType.name());
+    public static AbstractProductService getProductService(ProductType productType) {
+        return (AbstractProductService) SERVICE_FACTORY.getService(productType.getClass(), productType.name());
     }
 
     // 获取产品工厂服务
-    public AbstractRouterFactory getRouterFactory(RouterType routerType) {
-        return (AbstractRouterFactory) serviceFactory.getService(RouterType.class, routerType.name());
+    public static AbstractRouterFactory getRouterFactory(RouterType routerType) {
+        return (AbstractRouterFactory) SERVICE_FACTORY.getService(RouterType.class, routerType.name());
     }
 }

@@ -12,8 +12,6 @@ import java.util.Random;
 @RequiredArgsConstructor
 @Service
 public class TradeTask {
-    //private final ServiceAdapter serviceAdapter;
-    private final ServiceAdapterNew serviceAdapterNew;
 
     //@Scheduled(cron = "0/2 * * * * ?")
     public void testService() {
@@ -25,7 +23,7 @@ public class TradeTask {
         System.out.println("asset calculate type from all exchange:");
         ProductType productType = getProductType();
         System.out.println("asset calculate type productType: " + productType);
-        serviceAdapterNew.getAbstractAssetService(productType).print(productType);
+        ServiceAdapterNew.getAbstractAssetService(productType).print(productType);
 
         System.out.println();
     }
@@ -35,7 +33,7 @@ public class TradeTask {
         System.out.println("finance type from all exchange:");
         ProductType productType = getProductType();
         System.out.println("productType: " + productType);
-        serviceAdapterNew.getProductService(productType).print(productType);
+        ServiceAdapterNew.getProductService(productType).print(productType);
 
         System.out.println();
     }
@@ -50,7 +48,7 @@ public class TradeTask {
 
         RouterType routerType = getRouterType();
         System.out.println("trade place: " + routerType);
-        serviceAdapterNew.getRouterFactory(routerType).getTradeService().executeTrade();
+        ServiceAdapterNew.getRouterFactory(routerType).getTradeService().executeTrade();
 
         System.out.println();
     }
