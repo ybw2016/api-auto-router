@@ -89,7 +89,12 @@ public class ServiceFactoryNew implements SmartInitializingSingleton {
 
     public Object getService(String bizGroup, Class<? extends Enum> bizEnum, String bizName) {
         String groupKey = getGroupKey(bizGroup, bizEnum);
-        Object handler = HANDLER_MAP.get(groupKey).get(bizName);
+        Map<String, Object> beanListOfGroup = HANDLER_MAP.get(groupKey);
+        if (beanListOfGroup == null) {
+            throw new RuntimeException("没有该配置组对应的实现类");
+        }
+
+        Object handler = beanListOfGroup.get(bizName);
         return checkHandler(handler);
     }
 
