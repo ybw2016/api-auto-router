@@ -18,7 +18,7 @@ public class TradeTask {
         System.out.println("service heartbeat...");
     }
 
-    @Scheduled(cron = "0/2 * * * * ?")
+    //@Scheduled(cron = "0/2 * * * * ?")
     public void assetCalculate() {
         System.out.println("asset calculate type from all exchange:");
         ProductType productType = getProductType();
@@ -28,7 +28,8 @@ public class TradeTask {
         System.out.println();
     }
 
-    @Scheduled(cron = "0/3 * * * * ?")
+    @Scheduled(cron = "0/1 * * * * ?")
+    //@Scheduled(cron = "0/3 * * * * ?")
     public void securityProducts() {
         System.out.println("finance type from all exchange:");
         ProductType productType = getProductType();
@@ -55,12 +56,18 @@ public class TradeTask {
 
 
     private ProductType getProductType() {
-        int number = new Random().nextInt(1000) % 3;
+        int number = new Random().nextInt(1000) % 5;
         if (number == 1) {
             return ProductType.STOCK;
         }
         if (number == 2) {
             return ProductType.BOND;
+        }
+        if (number == 3) {
+            return ProductType.FUTURE;
+        }
+        if (number == 4) {
+            return ProductType.OPTION;
         }
         return ProductType.FUND;
     }

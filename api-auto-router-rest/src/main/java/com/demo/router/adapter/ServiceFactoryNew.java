@@ -10,6 +10,7 @@ import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -45,34 +46,35 @@ public class ServiceFactoryNew implements SmartInitializingSingleton {
         for (String key : beanMap.keySet()) {
             Object bean = beanMap.get(key);
 
-            System.out.println(String.format("ServiceFactory bean -> beanName:%s, bean:%s", key, bean));
-
             RouterNew routerNew = bean.getClass().getAnnotation(RouterNew.class);
             String groupKey = getGroupKey(routerNew.bizGroup(), routerNew.bizEnum());
-            String serviceKey = routerNew.bizEnumName();
+            String[] serviceKeys = routerNew.bizEnumName();
+            System.out.println(String.format("ServiceFactory bean -> beanName:%s, bean:%s, serviceKeys:{}", key, bean, Arrays.toString(serviceKeys)));
 
-            // 检验bean必须唯一
-            String beanUniqueName = String.format("%s_%s", groupKey, serviceKey);
-            if (!BEAN_NAME_SET.contains(beanUniqueName)) {
-                BEAN_NAME_SET.add(beanUniqueName);
-            } else {
-                throw new RuntimeException(
-                    String.format("策略冲突，不同的策略子类请使用不同的策略枚举bizEnum或者策略组bizGroup -> bizGroup:%s, bizEnum:%s, bizEnumName:%s, beanName:%s",
-                        routerNew.bizGroup(), routerNew.bizEnum(), serviceKey, bean.getClass().getName())
-                );
+            for (String serviceKey : serviceKeys) {
+                // 检验bean必须唯一
+                String beanUniqueName = String.format("%s_%s", groupKey, serviceKey);
+                if (!BEAN_NAME_SET.contains(beanUniqueName)) {
+                    BEAN_NAME_SET.add(beanUniqueName);
+                } else {
+                    throw new RuntimeException(
+                        String.format("策略冲突，不同的策略子类请使用不同的策略枚举bizEnum或者策略组bizGroup -> bizGroup:%s, bizEnum:%s, bizEnumName:%s, beanName:%s",
+                            routerNew.bizGroup(), routerNew.bizEnum(), serviceKey, bean.getClass().getName())
+                    );
+                }
+
+                // 检查枚举值合法性
+                if (Stream.of(routerNew.bizEnum().getEnumConstants()).noneMatch(enumItem -> enumItem.name().equals(serviceKey))) {
+                    throw new RuntimeException(
+                        String.format("策略命名不合法，请使用bizEnum.name()枚举值作为策略类命名 -> bizGroup:%s, bizEnum:%s, bizEnumName:%s, beanName:%s",
+                            routerNew.bizGroup(), routerNew.bizEnum(), serviceKey, bean.getClass().getName())
+                    );
+                }
+
+                HANDLER_MAP.computeIfAbsent(groupKey, rootKeyItem -> new HashMap<>());
+                Map<String, Object> serviceMap = HANDLER_MAP.get(groupKey);
+                serviceMap.put(serviceKey, bean);
             }
-
-            // 检查枚举值合法性
-            if (Stream.of(routerNew.bizEnum().getEnumConstants()).noneMatch(enumItem -> enumItem.name().equals(serviceKey))) {
-                throw new RuntimeException(
-                    String.format("策略命名不合法，请使用bizEnum.name()枚举值作为策略类命名 -> bizGroup:%s, bizEnum:%s, bizEnumName:%s, beanName:%s",
-                        routerNew.bizGroup(), routerNew.bizEnum(), serviceKey, bean.getClass().getName())
-                );
-            }
-
-            HANDLER_MAP.computeIfAbsent(groupKey, rootKeyItem -> new HashMap<>());
-            Map<String, Object> serviceMap = HANDLER_MAP.get(groupKey);
-            serviceMap.put(serviceKey, bean);
         }
 
         for (Map.Entry<String, Map<String, Object>> groupEntry : HANDLER_MAP.entrySet()) {

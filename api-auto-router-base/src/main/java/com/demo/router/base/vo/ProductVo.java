@@ -10,4 +10,5 @@ import lombok.experimental.Accessors;
 public class ProductVo {
     private String productCode;
     private String productName;
+    private boolean finished;
 }

@@ -12,5 +12,5 @@ public @interface RouterNew {
 
     Class<? extends Enum> bizEnum();
 
-    String bizEnumName();
+    String[] bizEnumName();
 }
